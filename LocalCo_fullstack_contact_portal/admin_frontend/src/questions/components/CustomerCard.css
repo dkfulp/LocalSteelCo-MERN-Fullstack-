@@ -1,0 +1,68 @@
+.customercard-item {
+  margin: 1rem 0;
+}
+
+.customercard-item__content {
+  padding: 0;
+}
+
+.customercard-item__info {
+  padding: 1rem;
+  text-align: center;
+}
+
+.customercard-item__image {
+  width: 100%;
+  height: 12.5rem;
+  margin-right: 1.5rem;
+}
+
+.customercard-item__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.customercard-item__info h2,
+.customercard-item__info h3,
+.customercard-item__info p {
+  margin: 0 0 0.5rem 0;
+}
+
+.customercard-item__actions {
+  padding: 1rem;
+  text-align: center;
+  border-top: 1px solid #ccc;
+}
+
+.customercard-item__modal-content {
+  padding: 0;
+}
+
+.customercard-item__modal-actions {
+  text-align: right;
+}
+
+.customercard-item__actions button,
+.customercard-item__actions a {
+  margin: 0.5rem;
+}
+
+.map-container {
+  height: 15rem;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .customercard-item__image {
+    height: 20rem;
+  }
+}
+
+.customercard-list {
+  list-style: none;
+  margin: 1rem auto;
+  padding: 0;
+  width: 90%;
+  max-width: 40rem;
+}

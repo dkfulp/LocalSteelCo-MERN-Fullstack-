@@ -8,11 +8,13 @@ import {
 
 import Customers from './customers/pages/Customers';
 import Questions from './questions/pages/Questions';
-import UserPlaces from './places/pages/UserPlaces';
-import UpdatePlace from './places/pages/UpdatePlace';
+import QuestionsByCustomer from './questions/pages/QuestionsByCustomer';
+import NewCustomer from './customers/pages/NewCustomer';
 import Auth from './staff/pages/Auth';
 import MainNavigation from './shared/components/Navigation/MainNavigation';
 import { AuthContext } from './shared/context/auth-context';
+import UpdateQuestion from './questions/pages/UpdateQuestion';
+import UpdateCustomer from './customers/pages/UpdateCustomer';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -38,6 +40,18 @@ const App = () => {
         </Route>
         <Route path="/questions" exact>
           <Questions />
+        </Route>
+        <Route path="/cusomters/add" exact>
+          <NewCustomer />
+        </Route>
+        <Route path="/questions/:questionId" exact>
+          <UpdateQuestion />
+        </Route>
+        <Route path="/customers/:customerId" exact>
+          <UpdateCustomer />
+        </Route>
+        <Route path="/questions/customer/:customerId" exact>
+          <QuestionsByCustomer />
         </Route>
         <Redirect to="/customers" />
       </Switch>

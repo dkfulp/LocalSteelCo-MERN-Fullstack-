@@ -9,7 +9,7 @@ const CustomerItem = props => {
   return (
     <li className="customer-item">
       <Card className="customer-item__content">
-        <Link to={`/${props.id}/questions`}>
+        <Link to={`/questions/customer/${props.id}/`}>
           <div className="customer-item__image">
             <Avatar image={props.image} alt={props.name} />
           </div>

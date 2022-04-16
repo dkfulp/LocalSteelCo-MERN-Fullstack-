@@ -1,20 +1,22 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
+
 import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import {
-  VALIDATOR_REQUIRE,
-  VALIDATOR_MINLENGTH,
-  VALIDATOR_MAXLENGTH,
-  VALIDATOR_BOOL,
-  VALIDATOR_EMAIL,
-} from "../../shared/util/validators";
+    VALIDATOR_REQUIRE,
+    VALIDATOR_MINLENGTH,
+    VALIDATOR_MAXLENGTH,
+    VALIDATOR_BOOL,
+    VALIDATOR_EMAIL,
+  } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
-import "./ContactForm.css";
+import "./CustomerForm.css";
 
-const Contact = () => {
+const NewCustomer = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [formState, inputHandler] = useForm(
     {
@@ -30,10 +32,6 @@ const Contact = () => {
         value: "",
         isValid: false,
       },
-      description: {
-        value: "",
-        isValid: false,
-      },
       newsletter: {
         value: "",
         isValid: true,
@@ -41,33 +39,18 @@ const Contact = () => {
     },
     false
   );
-  
-  const questionSubmitHandler = async (event) => {
-    event.preventDefault();
 
+  const history = useHistory();
+
+  const customerSubmitHandler = async (event) => {
+    event.preventDefault();
     try {
       const customerCheck = await sendRequest(
         `http://localhost:5000/api/customers/email/check/${formState.inputs.email.value}`
       );
 
-      if (customerCheck) {
-        const customerData = await sendRequest(
-          `http://localhost:5000/api/customers/email/${formState.inputs.email.value}`
-        );
-
+      if (!customerCheck) {
         await sendRequest(
-          "http://localhost:5000/api/questions/add",
-          "POST",
-          JSON.stringify({
-            customer: customerData.customer.id,
-            submitted: Date().toLocaleString(),
-            description: formState.inputs.description.value,
-          }),
-          { "Content-Type": "application/json" }
-        );
-        window.location.reload(false);
-      } else {
-        const responseData = await sendRequest(
           "http://localhost:5000/api/customers/add",
           "POST",
           JSON.stringify({
@@ -78,26 +61,16 @@ const Contact = () => {
           }),
           { "Content-Type": "application/json" }
         );
-
-        await sendRequest(
-          "http://localhost:5000/api/questions/add",
-          "POST",
-          JSON.stringify({
-            customer: responseData.customer.id,
-            submitted: Date().toLocaleString(),
-            description: formState.inputs.description.value,
-          }),
-          { "Content-Type": "application/json" }
-        );
-        window.location.reload(false);
       }
+
+      history.push("/customers");
     } catch (err) {}
   };
 
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
-      <form className="contact-form" onSubmit={questionSubmitHandler}>
+      <form className="customer-form" onSubmit={customerSubmitHandler}>
         {isLoading && <LoadingSpinner asOverlay />}
         <Input
           id="name"
@@ -131,14 +104,6 @@ const Contact = () => {
           onInput={inputHandler}
         />
         <Input
-          id="description"
-          element="textarea"
-          label="Question/Comment"
-          validators={[VALIDATOR_REQUIRE()]}
-          errorText="Please enter a valid question."
-          onInput={inputHandler}
-        />
-        <Input
           id="newsletter"
           element="input"
           type="text"
@@ -147,13 +112,12 @@ const Contact = () => {
           errorText="Please enter a true or false."
           onInput={inputHandler}
         />
-
         <Button type="submit" disabled={!formState.isValid}>
-          Submit Form
+          ADD CUSTOMER
         </Button>
       </form>
     </React.Fragment>
   );
 };
 
-export default Contact;
+export default NewCustomer;
