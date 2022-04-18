@@ -41,7 +41,7 @@ const App = () => {
         <Route path="/questions" exact>
           <Questions />
         </Route>
-        <Route path="/cusomters/add" exact>
+        <Route path="/customers/add" exact>
           <NewCustomer />
         </Route>
         <Route path="/questions/:questionId" exact>
